@@ -36,3 +36,5 @@ To give an example, you might do something like the following:
 </body>
 </html>
 ```
+
+Released under the [MIT License](http://opensource.org/licenses/MIT).
