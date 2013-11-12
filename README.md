@@ -6,7 +6,7 @@ To use, include Raphäel and jQuery, then pass an element with a number in it to
 
 To give an example, you might do something like the following:
 
-````
+```html
 <!doctype html>
 <html lang="en">
 <head>
@@ -31,4 +31,4 @@ To give an example, you might do something like the following:
   </script>
 </body>
 </html>
-````
+```
