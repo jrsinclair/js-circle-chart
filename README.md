@@ -23,9 +23,13 @@ To give an example, you might do something like the following:
   <div class="circle-chart">
     85%
   </div>
+
+  <!-- Load the required libraries -->
   <script src="//codeorigin.jquery.com/jquery-2.0.3.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script>
   <script src="js/circle-chart.js"></script>
+
+  <!-- Create the chart -->
   <script>
     $('.circle-chart').each(function() { new CircleChart(this); });
   </script>
