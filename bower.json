@@ -1,0 +1,27 @@
+{
+  "name": "circle-chart",
+  "version": "0.0.0",
+  "authors": [
+    "James Sinclair <jrsinclair@gmail.com>"
+  ],
+  "description": "Creates a RaphaelJS circle chart.",
+  "main": "js/circle-chart.js",
+  "keywords": [
+    "svg",
+    "circle",
+    "raphael"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "qunit": "~1.12.0",
+    "jquery": "git://github.com/components/jquery.git#~2.0.3",
+    "raphael": "git://github.com/DmitryBaranovskiy/raphael.git#~2.1.2"
+  }
+}

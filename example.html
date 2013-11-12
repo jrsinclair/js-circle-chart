@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Circle Chart</title>
+  <style>
+    .circle-chart {
+      width: 100px;
+      position: relative;
+    }
+
+    .circle-chart__text {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      left: 0;
+      top: 0;
+      line-height: 4;
+      font-family: sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div class="circle-chart">
+    66.7%
+  </div>
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+  <script src="bower_components/jquery/jquery.min.js"></script>
+  <script src="bower_components/raphael/raphael-min.js"></script>
+  <script src="js/circle-chart.js"></script>
+  <script>
+  var c;
+  $('.circle-chart').each(function () {c = new CircleChart(this); });
+
+  if (window.MutationObserver) {
+    var config = { attributes: false, childList: true, characterData: false };
+    var observer = new MutationObserver(function(mutations) {
+        console.log(c.inner.innerText);
+        c.changeValue(parseFloat(c.inner.innerHTML));  
+    });
+    observer.observe($('.circle-chart__text')[0], config);
+  }
+  </script>
+</body>
+</html>
