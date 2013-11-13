@@ -2,7 +2,7 @@
 
 A very simple circular chart/dial using Raphäel and jQuery.
 
-To use, include Raphäel and jQuery, then pass an element with a number in it to the constructor. What you do with the CSS is up to you.
+To use, include Raphäel, then pass an element with a number in it to the constructor. What you do with the CSS is up to you.
 
 To give an example, you might do something like the following:
 
@@ -25,16 +25,28 @@ To give an example, you might do something like the following:
   </div>
 
   <!-- Load the required libraries -->
-  <script src="//codeorigin.jquery.com/jquery-2.0.3.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script>
   <script src="js/circle-chart.js"></script>
 
   <!-- Create the chart -->
   <script>
-    $('.circle-chart').each(function() { new CircleChart(this); });
+    var el = document.querySelector('.circle-chart');
+    new CircleChart(el);
   </script>
 </body>
 </html>
+```
+
+## Options
+
+You can pass an options object as a second parameter to the constructor. The defaults are something like the following:
+
+```javascript
+{
+    stroke:   20,       // Width of the circle (in pixels)
+    maxVal:   100,      // Maximum value for the chart
+    colour:   '#56b7d6' // Colour of the circle (yes, with British spelling)
+}
 ```
 
 Released under the [MIT License](http://opensource.org/licenses/MIT).
