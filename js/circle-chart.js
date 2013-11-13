@@ -6,8 +6,8 @@
  */
 /*jslint browser:true*/
 /*globals module, Raphael*/
-var CircleChart;
-(function () {
+
+var CircleChart = (function () {
     "use strict";
 
     var defaults = {
@@ -16,6 +16,15 @@ var CircleChart;
         maxVal:   100,
         colour:   '#56b7d6'
     };
+
+    /**
+     * String trim polyfill.
+     */
+    if (!String.prototype.trim) {
+        String.prototype.trim = function () {
+            return this.replace(/^\s+|\s+$/g, '');
+        };
+    }
 
     /**
      * Query Selector.
@@ -132,5 +141,7 @@ var CircleChart;
     CircleChart.prototype.calcRads = function (value) {
         return value * 2 * Math.PI;
     };
+
+    return CircleChart;
 
 }());

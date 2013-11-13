@@ -8,14 +8,31 @@
     "use strict";
 
     function $(cssStr) {
-        return document.querySelector(cssStr);
+        var el = document.querySelector(cssStr);
+        return el;
+    }
+
+    /**
+     * Polyfill for forEach.
+     */
+    if (!Array.prototype.forEach) {
+        Array.prototype.forEach = function (fn, scope) {
+            var i, len;
+            for (i = 0, len = this.length; i < len; i += 1) {
+                if (this.hasOwnProperty(i)) {
+                    fn.call(scope, this[i], i, this);
+                }
+            }
+        };
     }
 
     var el = $('.circle-chart'),
         cc;
 
     test("Test that creating an object works", function () {
-        if (cc === undefined) { cc = new CircleChart(el); }
+        if (cc === undefined) {
+            cc = new CircleChart(el);
+        }
         equal('object', typeof cc, "cc should be an object");
     });
 

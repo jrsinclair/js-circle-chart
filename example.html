@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -27,20 +27,22 @@
   </div>
   <div id="qunit"></div>
   <div id="qunit-fixture"></div>
-  <script src="bower_components/jquery/jquery.min.js"></script>
   <script src="bower_components/raphael/raphael-min.js"></script>
   <script src="js/circle-chart.js"></script>
   <script>
-  var c;
-  $('.circle-chart').each(function () {c = new CircleChart(this); });
+  window.onload = function () {
+    var c, el;
+    el = document.querySelector('.circle-chart');
+    c = new CircleChart(el);
 
-  if (window.MutationObserver) {
-    var config = { attributes: false, childList: true, characterData: false };
-    var observer = new MutationObserver(function(mutations) {
-        console.log(c.inner.innerText);
-        c.changeValue(parseFloat(c.inner.innerHTML));  
-    });
-    observer.observe($('.circle-chart__text')[0], config);
+    if (window.MutationObserver) {
+      var config = { attributes: false, childList: true, characterData: false };
+      var observer = new MutationObserver(function(mutations) {
+          console.log(c.inner.innerText);
+          c.changeValue(parseFloat(c.inner.innerHTML));  
+      });
+      observer.observe($('.circle-chart__text')[0], config);
+    }
   }
   </script>
 </body>
