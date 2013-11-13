@@ -13,7 +13,8 @@ var CircleChart = (function () {
     var defaults = {
         stroke:   20,
         maxVal:   100,
-        colour:   '#56b7d6'
+        colour:   '#56b7d6',
+        animationSpeed: 1000
     };
 
     /**
@@ -127,7 +128,7 @@ var CircleChart = (function () {
             r     = (w / 2) - (s / 2);
         this.circ.animate(
             {arc: [(w / 2), (w / 2), val, this.opts.maxVal, r]},
-            1000,
+            this.opts.animationSpeed,
             'ease-in-out',
             callback
         );

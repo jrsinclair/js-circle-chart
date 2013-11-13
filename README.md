@@ -43,9 +43,10 @@ You can pass an options object as a second parameter to the constructor. The def
 
 ```javascript
 {
-    stroke:   20,       // Width of the circle (in pixels)
-    maxVal:   100,      // Maximum value for the chart
-    colour:   '#56b7d6' // Colour of the circle (yes, with British spelling)
+    stroke:   20,        // Width of the circle (in pixels)
+    maxVal:   100,       // Maximum value for the chart
+    colour:   '#56b7d6', // Colour of the circle (yes, with British spelling)
+    animationSpeed: 1000 // Time in ms for animations
 }
 ```
 
