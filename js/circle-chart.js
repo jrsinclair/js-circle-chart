@@ -11,7 +11,6 @@ var CircleChart = (function () {
     "use strict";
 
     var defaults = {
-        selector: '.circle-chart',
         stroke:   20,
         maxVal:   100,
         colour:   '#56b7d6'
