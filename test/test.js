@@ -1,12 +1,17 @@
 /**
  * QUnit Tests for Circle Chart
  */
-/*global CircleChart, require, test, equal, ok, $ */
+/*jslint browser:true*/
+/*global CircleChart, require, test, equal, ok */
 
 (function circleChartTests() {
     "use strict";
 
-    var el = $('.circle-chart')[0],
+    function $(cssStr) {
+        return document.querySelector(cssStr);
+    }
+
+    var el = $('.circle-chart'),
         cc;
 
     test("Test that creating an object works", function () {
@@ -21,7 +26,7 @@
 
     test("Test that init() creates HTML structure.", function () {
         if (cc === undefined) { cc = new CircleChart(el); }
-        equal($('.circle-chart__text').length, 1);
+        equal($('.circle-chart__text').innerHTML, '66.7%');
     });
 
     test("Test that calc rads calculates rads", function () {
@@ -36,4 +41,4 @@
         });
     });
 
-}(jQuery));
+}());

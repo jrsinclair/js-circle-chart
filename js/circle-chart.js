@@ -4,9 +4,10 @@
  * James Sinclair
  * November 2013
  */
-/*globals module, Raphael, jQuery*/
+/*jslint browser:true*/
+/*globals module, Raphael*/
 var CircleChart;
-(function ($) {
+(function () {
     "use strict";
 
     var defaults = {
@@ -15,6 +16,13 @@ var CircleChart;
         maxVal:   100,
         colour:   '#56b7d6'
     };
+
+    /**
+     * Query Selector.
+     */
+    function $(cssStr) {
+        return document.querySelector(cssStr);
+    }
 
     /**
      * Shallow Extend.
@@ -57,23 +65,22 @@ var CircleChart;
         return {
             path: path
         };
-    };
+    }
 
     /**
      * Constructor.
      */
     CircleChart = function CircleChart(elem, opts) {
-        var $elem, w, txt, val, paper, initStr, circ, r, s;
+        var w, txt, val, paper, circ, r, s;
 
         // Element
-        $elem      = $(elem);
-        this.$elem = $elem;
+        this.elem = elem;
 
         // Defaults
         this.opts = extend({}, defaults, opts);
 
-        w   = $elem.width();
-        txt = $elem.text();
+        w   = elem.clientWidth;
+        txt = elem.innerHTML.trim();
         val = parseFloat(txt);
 
         this.val = 0;
@@ -81,12 +88,10 @@ var CircleChart;
         r        = (w / 2) - (this.opts.stroke / 2);
         s        = this.opts.stroke;
 
-        $elem.html('<div class="circle-chart__text">' + txt + '</div>');
-        this.inner = $elem.find('.circle-chart__text')[0];
+        elem.innerHTML = '<div class="circle-chart__text">' + txt + '</div>';
+        this.inner = $('.circle-chart__text');
 
-        $elem.css({
-            'font-size': (0.25 * w) + 'px'
-        });
+        elem.setAttribute('style', 'font-size: ' + (0.25 * w) + 'px');
 
         // Create SVG/VML containers
         paper      = Raphael(elem, w, w);
@@ -118,7 +123,7 @@ var CircleChart;
             'ease-in-out',
             callback
         );
-    }
+    };
 
 
     /**
@@ -128,4 +133,4 @@ var CircleChart;
         return value * 2 * Math.PI;
     };
 
-}(jQuery));
+}());
