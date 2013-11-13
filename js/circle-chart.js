@@ -63,7 +63,7 @@ var CircleChart;
      * Constructor.
      */
     CircleChart = function CircleChart(elem, opts) {
-        var $elem, w, txt, val, paper, initStr, circ, r;
+        var $elem, w, txt, val, paper, initStr, circ, r, s;
 
         // Element
         $elem      = $(elem);
@@ -79,6 +79,7 @@ var CircleChart;
         this.val = 0;
         this.w   = w;
         r        = (w / 2) - (this.opts.stroke / 2);
+        s        = this.opts.stroke;
 
         $elem.html('<div class="circle-chart__text">' + txt + '</div>');
         this.inner = $elem.find('.circle-chart__text')[0];
@@ -92,8 +93,8 @@ var CircleChart;
         this.paper = paper;
         paper.customAttributes.arc = arc;
 
-        initStr = this.getPathTxt(0);
-        circ = paper.path(initStr);
+        // initStr = this.getPathTxt(0);
+        circ = paper.path("M" + (w / 2) + " " + (s / 2));
         circ.attr({
             "stroke-width": this.opts.stroke,
             stroke:         this.opts.colour,
@@ -126,42 +127,5 @@ var CircleChart;
     CircleChart.prototype.calcRads = function (value) {
         return value * 2 * Math.PI;
     };
-
-
-    /**
-     * Calculate X and Y
-     */
-    CircleChart.prototype.calcXY = function (value) {
-        var s     = this.opts.stroke,
-            w     = this.w,
-            r     = (w / 2) - (s / 2),
-            theta = this.calcRads(value);
-        return [
-            (w / 2) + r * (Math.cos((Math.PI / 2) - theta)),
-            (w / 2) - r * Math.sin((Math.PI / 2) - theta)
-        ];
-    };
-
-
-    /**
-     * Get Path Text
-     */
-    CircleChart.prototype.getPathTxt = function (value) {
-        var s     = this.opts.stroke,
-            w     = this.w,
-            r     = (w / 2) - (s / 2),
-            theta = this.calcRads(value),
-            xy    = this.calcXY(value).join(' '),
-            lrg   = (theta > Math.PI) ? 1 : 0,
-            path;
-        path = 'M' + (w / 2) + ' ' + (s / 2) + 'A' + r + ' ' + r
-             + ' 0 ' + lrg + ' 1 ' + xy;
-        return path;
-    };
-
-    // If running on the commmand line, export.
-    // if (module !== undefined && module.exports) {
-    //     module.exports = CircleChart;
-    // }
 
 }(jQuery));

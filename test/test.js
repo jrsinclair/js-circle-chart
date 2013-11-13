@@ -36,28 +36,4 @@
         });
     });
 
-    test("Test that calcXY() calculates X and Y", function () {
-        if (cc === undefined) { cc = new CircleChart(el); }
-        var tests = [
-            {expected: [50, 10], inpt: 0},
-            {expected: [90, 50], inpt: 25 / 100},
-            {expected: [50, 90], inpt: 50 / 100},
-            {expected: [10, 50], inpt: 75 / 100}
-        ];
-        tests.forEach(function (set) {
-            var actual = cc.calcXY(set.inpt);
-            deepEqual(
-                actual.map(function (x) { return parseInt(x, 10); }),
-                set.expected,
-                "CalcXY should be correct. Expected " + JSON.stringify(set.expected)
-                    + " but got " + JSON.stringify(actual)
-            );
-        });
-    });
-
-    test("Test that getPathTxt returns path", function () {
-        if (cc === undefined) { cc = new CircleChart(el); }
-        var pth = cc.getPathTxt(0.25);
-        equal(pth, "M50 10A40 40 0 0 1 90 50");
-    });
 }(jQuery));
