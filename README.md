@@ -4,7 +4,7 @@
 ![Circle chart example with a border](http://dl.dropboxusercontent.com/s/p9rcmdph0jji1el/2013-11-14%20at%2012.09%20PM.png)
 ![Circle chart example with a track](http://dl.dropboxusercontent.com/s/d1riu9m3bvj9h2a/2013-11-14%20at%2012.12%20PM.png)
 
-A very simple circular chart/dial using Raphäel and jQuery.
+A very simple circular chart/dial using Raphäel.
 
 To use, include Raphäel, then pass an element with a number in it to the constructor. What you do with the CSS is up to you.
 
