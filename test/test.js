@@ -36,7 +36,7 @@
         equal('object', typeof cc, "cc should be an object");
     });
 
-    test("Test that init() can create paper.", function () {
+    test("Test that constructor can create paper.", function () {
         if (cc === undefined) { cc = new CircleChart(el); }
         equal('object', typeof cc.paper, "cc should have paper");
     });
@@ -46,16 +46,14 @@
         equal($('.circle-chart__text').innerHTML, '66.7%');
     });
 
-    test("Test that calc rads calculates rads", function () {
+    test("Test that constructor creates shapes attribute.", function () {
+        var shapes;
         if (cc === undefined) { cc = new CircleChart(el); }
-        var tests = [
-            {expected: 0, inpt: 0},
-            {expected: Math.PI / 2, inpt: 0.25},
-            {expected: Math.PI, inpt: 0.5}
-        ];
-        tests.forEach(function (set) {
-            equal(cc.calcRads(set.inpt), set.expected, "Calc rads should be correct");
-        });
+        equal('object', typeof cc.shapes, "cc should have shapes");
+        shapes = cc.shapes;
+        equal('object', typeof shapes.circ);
+        equal('object', typeof shapes.track);
+        equal('object', typeof shapes.outer);
     });
 
 }());

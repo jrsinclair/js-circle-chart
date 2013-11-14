@@ -48,7 +48,11 @@ You can pass an options object as a second parameter to the constructor. The def
     stroke:   20,        // Width of the circle (in pixels)
     maxVal:   100,       // Maximum value for the chart
     colour:   '#56b7d6', // Colour of the circle (yes, with British spelling)
-    animationSpeed: 1000 // Time in ms for animations
+    animationSpeed: 1000 // Time in ms for animations,
+    edgeWidth:      0,   // Width of the border (zero means no border)
+    edgeGap:        undefined, // Gap between border and chart. Defaults to edgeWidth.
+    edgeColour:     '#56b7d6', // Colour of the border.
+    trackColour:    'transparent' // Colour of the track beneath the chart.
 }
 ```
 

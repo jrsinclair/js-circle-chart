@@ -11,10 +11,14 @@ var CircleChart = (function () {
     "use strict";
 
     var defaults = {
-        stroke:   20,
-        maxVal:   100,
-        colour:   '#56b7d6',
-        animationSpeed: 1000
+        stroke:         20,
+        maxVal:         100,
+        colour:         '#56b7d6',
+        animationSpeed: 1000,
+        edgeWidth:      0,
+        edgeGap:        undefined,
+        edgeColour:     '#56b7d6',
+        trackColour:    'transparent'
     };
 
     /**
@@ -94,8 +98,6 @@ var CircleChart = (function () {
 
         this.val = 0;
         this.w   = w;
-        r        = (w / 2) - (this.opts.stroke / 2);
-        s        = this.opts.stroke;
 
         elem.innerHTML = '<div class="circle-chart__text">' + txt + '</div>';
         this.inner = $('.circle-chart__text');
@@ -107,16 +109,72 @@ var CircleChart = (function () {
         this.paper = paper;
         paper.customAttributes.arc = arc;
 
-        // initStr = this.getPathTxt(0);
-        circ = paper.path("M" + (w / 2) + " " + (s / 2));
-        circ.attr({
+        this.createShapes();
+
+        this.changeValue(val);
+    };
+
+
+    /**
+     * Create border
+     */
+    CircleChart.prototype.createBorder = function () {
+        var paper  = this.paper,
+            w      = this.w,
+            s      = this.opts.edgeWidth,
+            circle = paper.circle((w / 2), (w / 2), (w / 2) - (s / 2));
+        circle.attr({
+            stroke: this.opts.edgeColour,
+            "stroke-width": s
+        });
+        return circle;
+    };
+
+
+    /**
+     * Create track
+     */
+    CircleChart.prototype.createTrack = function () {
+        var paper = this.paper,
+            w     = this.w,
+            s     = this.opts.stroke,
+            ew    = this.opts.edgeWidth,
+            eg    = (this.opts.edgeGap === undefined) ? ew : this.opts.edgeGap,
+            r     = (w / 2) - (this.opts.stroke / 2) - (ew + eg),
+            track = paper.circle((w / 2), (w / 2), r);
+        track.attr({
+            stroke:         this.opts.trackColour,
+            "stroke-width": s
+        });
+        return track;
+    };
+
+
+    /**
+     * Create shapes
+     */
+    CircleChart.prototype.createShapes = function () {
+        var paper = this.paper,
+            w     = this.w,
+            s     = this.opts.stroke,
+            ew    = this.opts.edgeWidth,
+            eg    = (this.opts.edgeGap === undefined) ? ew : this.opts.edgeGap,
+            r     = (w / 2) - (s / 2) - (ew + eg);
+        this.shapes = {};
+
+        // Create circular border.
+        this.shapes.outer = this.createBorder();
+
+        // Create track.
+        this.shapes.track = this.createTrack();
+
+        // Create the chart path.
+        this.shapes.circ = paper.path("M" + (w / 2) + " " + (s / 2));
+        this.shapes.circ.attr({
             "stroke-width": this.opts.stroke,
             stroke:         this.opts.colour,
             arc:            [(w / 2), (w / 2), 0, this.opts.maxVal, r]
         });
-        this.circ = circ;
-
-        this.changeValue(val);
     };
 
     /**
@@ -125,21 +183,15 @@ var CircleChart = (function () {
     CircleChart.prototype.changeValue = function (val, callback) {
         var s     = this.opts.stroke,
             w     = this.w,
-            r     = (w / 2) - (s / 2);
-        this.circ.animate(
+            ew    = this.opts.edgeWidth,
+            eg    = (this.opts.edgeGap === undefined) ? ew : this.opts.edgeGap,
+            r     = (w / 2) - (s / 2) - (ew + eg);
+        this.shapes.circ.animate(
             {arc: [(w / 2), (w / 2), val, this.opts.maxVal, r]},
             this.opts.animationSpeed,
             'ease-in-out',
             callback
         );
-    };
-
-
-    /**
-     * Calcualate Radians
-     */
-    CircleChart.prototype.calcRads = function (value) {
-        return value * 2 * Math.PI;
     };
 
     return CircleChart;
