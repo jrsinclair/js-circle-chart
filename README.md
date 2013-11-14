@@ -1,6 +1,8 @@
 # Circle Chart
 
 ![Circle chart example showing an arc that starts at 12 o'clock and rotates around to finish at 66.7%](http://f.cl.ly/items/073H360N0K3R1S3w2M35/circle-chart-example.png)
+![Circle chart example with a border](http://dl.dropboxusercontent.com/s/p9rcmdph0jji1el/2013-11-14%20at%2012.09%20PM.png)
+![Circle chart example with a track](http://dl.dropboxusercontent.com/s/d1riu9m3bvj9h2a/2013-11-14%20at%2012.12%20PM.png)
 
 A very simple circular chart/dial using Raphäel and jQuery.
 
