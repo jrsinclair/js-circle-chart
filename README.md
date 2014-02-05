@@ -4,7 +4,7 @@
 ![Circle chart example with a border](http://dl.dropboxusercontent.com/s/p9rcmdph0jji1el/2013-11-14%20at%2012.09%20PM.png)
 ![Circle chart example with a track](http://dl.dropboxusercontent.com/s/d1riu9m3bvj9h2a/2013-11-14%20at%2012.12%20PM.png)
 
-A very simple circular chart/dial using Raphäel.
+A very simple (responsive) circular chart/dial using Raphäel.
 
 To use, include Raphäel, then pass an element with a number in it to the constructor. What you do with the CSS is up to you.
 
@@ -17,7 +17,7 @@ To give an example, you might do something like the following:
   <meta charset="UTF-8">
   <title>Circle Chart</title>
   <style>
-    .circle-chart { width: 100px; position: relative; }
+    .circle-chart { width: 25%; position: relative; }
     .circle-chart__text { position: absolute; width: 100%; height: 100%; text-align: center; left: 0; top: 0; line-height: 4; font-family: sans-serif; }
   </style>
 </head>
