@@ -4,7 +4,7 @@
  * James Sinclair
  * November 2013
  */
-/*jslint browser:true*/
+/*jslint browser:true, nomen:true*/
 /*globals module, Raphael*/
 
 var CircleChart = (function () {
@@ -14,7 +14,7 @@ var CircleChart = (function () {
         stroke:         20,
         maxVal:         100,
         colour:         '#56b7d6',
-        animationSpeed: 1000,
+        animationSpeed: 750,
         edgeWidth:      0,
         edgeGap:        undefined,
         edgeColour:     '#56b7d6',
@@ -55,6 +55,7 @@ var CircleChart = (function () {
         return args[0];
     }
 
+
     /**
      * Arc Function.
      */
@@ -84,7 +85,9 @@ var CircleChart = (function () {
      * Constructor.
      */
     CircleChart = function CircleChart(elem, opts) {
-        var w, txt, val, paper, circ, r, s;
+        var w, txt, val, paper, config, observer, cc;
+
+        cc = this;
 
         // Element
         this.elem = elem;
@@ -94,7 +97,11 @@ var CircleChart = (function () {
 
         w   = elem.clientWidth;
         txt = elem.innerHTML.trim();
-        val = parseFloat(txt);
+        val = parseFloat(elem.textContent.trim());
+
+        // Adde event listener
+        elem.addEventListener('resize', this.onresize);
+        elem.addEventListener('click', this.onresize);
 
         this.val = 0;
         this.w   = w;
@@ -110,6 +117,22 @@ var CircleChart = (function () {
         paper.customAttributes.arc = arc;
 
         this.createShapes();
+
+        /**
+         * Watch for resize event.
+         */
+        if (window.MutationObserver) {
+            elem.setAttribute('data-orig-width', w);
+            config  = {
+                attributes: true,
+                childList: false,
+                characterData: false
+            };
+            observer = new window.MutationObserver(function (mutations) {
+                cc.resize();
+            });
+            observer.observe(elem, config);
+        }
 
         this.changeValue(val);
     };
@@ -132,6 +155,30 @@ var CircleChart = (function () {
 
 
     /**
+     * Update border
+     */
+    CircleChart.prototype.updateBorder = function (speed, anim) {
+        var cc     = this,
+            paper  = cc.paper,
+            w      = cc.w,
+            s      = cc.opts.edgeWidth,
+            circle = cc.shapes.outer,
+            params = {
+                "stroke":       cc.opts.edgeColour,
+                "stroke-width": s,
+                "cx":           (w / 2),
+                "cy":           (w / 2),
+                "r":            (w / 2) - (s / 2)
+            };
+        if (anim) {
+            circle.animateWith(cc.shapes.track, anim, params);
+        }
+        circle.animate(params, speed);
+        return circle;
+    };
+
+
+    /**
      * Create track
      */
     CircleChart.prototype.createTrack = function () {
@@ -147,6 +194,28 @@ var CircleChart = (function () {
             "stroke-width": s
         });
         return track;
+    };
+
+
+    /**
+     * Update track
+     */
+    CircleChart.prototype.updateTrack = function (speed) {
+        var cc    = this,
+            track = cc.shapes.track,
+            w     = cc.w,
+            s     = cc.opts.stroke,
+            ew    = cc.opts.edgeWidth,
+            eg    = (cc.opts.edgeGap === undefined) ? ew : cc.opts.edgeGap,
+            r     = (w / 2) - (this.opts.stroke / 2) - (ew + eg),
+            anim  = Raphael.animation({
+                        "r"           : r,
+                        "stroke-width": s,
+                        "cx"          : (w / 2),
+                        "cy"          : (w / 2)
+                    }, speed);
+        track.animate(anim);
+        return anim;
     };
 
 
@@ -180,18 +249,46 @@ var CircleChart = (function () {
     /**
      * Change value with an animation.
      */
-    CircleChart.prototype.changeValue = function (val, callback) {
-        var s     = this.opts.stroke,
-            w     = this.w,
-            ew    = this.opts.edgeWidth,
-            eg    = (this.opts.edgeGap === undefined) ? ew : this.opts.edgeGap,
-            r     = (w / 2) - (s / 2) - (ew + eg);
-        this.shapes.circ.animate(
-            {arc: [(w / 2), (w / 2), val, this.opts.maxVal, r]},
-            this.opts.animationSpeed,
-            'ease-in-out',
-            callback
-        );
+    CircleChart.prototype.changeValue = function (val, animTime, callback, anim) {
+        var s      = this.opts.stroke,
+            w      = this.w,
+            ew     = this.opts.edgeWidth,
+            eg     = (this.opts.edgeGap === undefined) ? ew : this.opts.edgeGap,
+            r      = (w / 2) - (s / 2) - (ew + eg),
+            speed  = (animTime !== undefined) ? animTime : this.opts.animationSpeed,
+            params = {arc: [(w / 2), (w / 2), val, this.opts.maxVal, r]},
+            circ   = this.shapes.circ;
+        if (anim) {
+            circ.animateWith(
+                this.shapes.track,
+                anim,
+                params,
+                speed,
+                'ease-in-out',
+                callback
+            );
+        } else {
+            circ.animate(params,speed, 'ease-in-out', callback);
+        }
+    };
+
+
+    /**
+     * Respond to a resize.
+     */
+    CircleChart.prototype.resize = function () {
+        var cc    = this,
+            elem  = cc.elem,
+            w     = elem.clientWidth,
+            spd   = cc.opts.animationSpeed,
+            paper = cc.paper,
+            anim;
+        cc.w = w;
+        paper.setSize(w, w);
+        cc.shapes.circ.stop();
+        anim = cc.updateTrack(spd);
+        cc.updateBorder(spd, anim);
+        cc.changeValue(parseFloat(cc.inner.innerHTML), spd, undefined, anim);
     };
 
     return CircleChart;
