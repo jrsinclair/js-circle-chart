@@ -264,7 +264,7 @@ var CircleChart = (function () {
                 anim,
                 params,
                 speed,
-                'ease-in-out',
+                'linear',
                 callback
             );
         } else {
