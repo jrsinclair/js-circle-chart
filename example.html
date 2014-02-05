@@ -4,11 +4,18 @@
   <meta charset="UTF-8">
   <title>Circle Chart</title>
   <style>
+
+    .charts-container {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
     .circle-chart {
-      width: 100px;
+      width:     25%;
+      min-width: 100px;
       position: relative;
       display: inline-block;
-      margin-right: 2em;
+      margin-right: 1em;
     }
 
     .circle-chart__text {
@@ -24,6 +31,7 @@
   </style>
 </head>
 <body>
+  <div class="charts-container">
   <div class="circle-chart circle-chart--default">
     66.7%
   </div>
@@ -33,8 +41,7 @@
   <div class="circle-chart circle-chart--with-track">
     33.3%
   </div>
-  <div id="qunit"></div>
-  <div id="qunit-fixture"></div>
+  </div>
   <script src="bower_components/raphael/raphael-min.js"></script>
   <script src="js/circle-chart.js"></script>
   <script>
@@ -48,18 +55,7 @@
 
     el = document.querySelector('.circle-chart--with-track');
     c3 = new CircleChart(el, { trackColour: '#efefef' });
-
-
-
-    if (window.MutationObserver) {
-      var config = { attributes: false, childList: true, characterData: false };
-      var observer = new MutationObserver(function(mutations) {
-          console.log(c1.inner.innerText);
-          c1.changeValue(parseFloat(c.inner.innerHTML));  
-      });
-      observer.observe(c1.elem, config);
-    }
-  }
+  };
   </script>
 </body>
 </html>

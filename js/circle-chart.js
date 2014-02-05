@@ -15,6 +15,7 @@ var CircleChart = (function () {
         maxVal:         100,
         colour:         '#56b7d6',
         animationSpeed: 750,
+        resizeSpeed:    100,
         edgeWidth:      0,
         edgeGap:        undefined,
         edgeColour:     '#56b7d6',
@@ -53,6 +54,20 @@ var CircleChart = (function () {
             }
         }
         return args[0];
+    }
+
+    /**
+     * Event Listener Polyfill.
+     * @param {Object} el          The element to set listener on
+     * @param {string} eventName   Name of the event
+     * @param {Function} handler   The event handler.
+     */
+    function addEventListener(el, eventName, handler) {
+      if (el.addEventListener) {
+          el.addEventListener(eventName, handler);
+      } else {
+          el.attachEvent('on' + eventName, handler);
+      }
     }
 
 
@@ -133,6 +148,8 @@ var CircleChart = (function () {
             });
             observer.observe(elem, config);
         }
+
+        addEventListener(window, 'resize', function() { cc.resize(); });
 
         this.changeValue(val);
     };
@@ -280,7 +297,7 @@ var CircleChart = (function () {
         var cc    = this,
             elem  = cc.elem,
             w     = elem.clientWidth,
-            spd   = cc.opts.animationSpeed,
+            spd   = cc.opts.resizeSpeed,
             paper = cc.paper,
             anim;
         cc.w = w;
@@ -290,6 +307,8 @@ var CircleChart = (function () {
         cc.updateBorder(spd, anim);
         cc.changeValue(parseFloat(cc.inner.innerHTML), spd, undefined, anim);
     };
+
+
 
     return CircleChart;
 
