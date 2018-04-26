@@ -19,7 +19,11 @@ var CircleChart = (function () {
         edgeWidth:      0,
         edgeGap:        undefined,
         edgeColour:     '#56b7d6',
-        trackColour:    'transparent'
+        trackColour:    'transparent',
+        edgeClass: 'edge',
+        trackClass: 'track',
+        pathClass: 'path',
+        pathEasing: 'ease-in-out' // follows the naming convention of Raphael.easing_formulas
     };
 
     /**
@@ -261,6 +265,11 @@ var CircleChart = (function () {
             stroke:         this.opts.colour,
             arc:            [(w / 2), (w / 2), 0, this.opts.maxVal, r]
         });
+
+        // add optional classes
+        this.shapes.outer.node.setAttribute("class", this.opts.edgeClass);
+        this.shapes.track.node.setAttribute("class", this.opts.trackClass);
+        this.shapes.circ.node.setAttribute("class", this.opts.pathClass);
     };
 
     /**
@@ -285,7 +294,7 @@ var CircleChart = (function () {
                 callback
             );
         } else {
-            circ.animate(params,speed, 'ease-in-out', callback);
+            circ.animate(params,speed, this.opts.pathEasing, callback);
         }
     };
 
